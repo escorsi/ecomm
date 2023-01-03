@@ -1,5 +1,5 @@
 FROM node:14
-WORKDIR /app/product
+WORKDIR /app/account
 COPY package.json .
 COPY package-lock.json .
 COPY . .
