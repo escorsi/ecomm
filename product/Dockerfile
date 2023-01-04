@@ -1,7 +1,5 @@
 FROM node:14
-WORKDIR /app-node-product
-COPY package.json .
-COPY package-lock.json .
+WORKDIR /app-node
 COPY . .
 RUN npm install
 ENTRYPOINT npm start
