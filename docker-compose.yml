@@ -5,4 +5,4 @@ services:
      container_name: ecomm-product
   account:
     build: ./account
-    container_name: ecomm-accoun
+    container_name: ecomm-account
