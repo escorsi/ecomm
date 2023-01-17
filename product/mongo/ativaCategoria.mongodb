@@ -1,2 +1,2 @@
 use('ecomm-product');
-db.categories.updateOne({"NOME": "ESPORTE"},{$set: {"STATUS": "ATIVA"}})
+db.categories.updateOne({nome: "ESPORTE"},{$set: {status: "ATIVA"}})
