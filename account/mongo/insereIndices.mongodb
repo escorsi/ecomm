@@ -1,0 +1,5 @@
+use('ecomm-account');
+
+db.users.createIndex({cpf: 1}, {unique: true});
+db.users.createIndex({email: 1}, {unique: true});
+db.users.createIndex({telefone: 1}, {unique: true});
