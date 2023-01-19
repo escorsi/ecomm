@@ -1,1 +1,21 @@
 use('ecomm-order');
+db.orders.aggregate([{
+    $match: {
+        nome: "Olnar"
+    }
+}, {
+    $unwind: "$produtos"
+}, {
+    $group: {
+        _id: "$_id",
+        quantidadeTotal: {
+            $sum: "$produtos.quantidadePedido"
+        },
+        montanteTotal: {
+            $sum: "$produtos.valorTotal"
+        },
+        descontoTotal: {
+            $sum: "$produtos.desconto"
+        }
+    }
+}])

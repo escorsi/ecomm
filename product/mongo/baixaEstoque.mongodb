@@ -1,7 +1,7 @@
 use('ecomm-product');
 
 var quantidadePedido = 2;
-var desconto = NumberDecimal("0.0");
+var desconto = NumberDecimal("300.0");
 var produto = db.products.findOneAndUpdate({
     nomeProduto: "Galaxy Tab S8", 
     quantidadeEstoque: {$gte: quantidadePedido}
@@ -15,6 +15,11 @@ var produto = db.products.findOneAndUpdate({
     }
 })
 
+produto['quantidadePedido'] = quantidadePedido;
+produto['desconto'] = desconto;
+produto['valorTotal'] = quantidadePedido * produto.precoUnitario;
+produto['valorFinal'] = produto.valorTotal - produto.desconto;
+
 use('ecomm-account');
 db.users.updateOne({
     nome: "Olnar"
@@ -25,10 +30,4 @@ db.users.updateOne({
         }
     }
 })
-
-db.users.updateOne({nome: "Olnar"}, {$set: {
-    "carrinho.produtos.0.quantidadePedido": quantidadePedido,
-    "carrinho.produtos.0.desconto": desconto
-}})
-
 
