@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   title: API de Produtos
-  description: Teste
-  version: 0.0.1
+  description: API para controle de um Ecommerce.
+  version: 0.0.2
   contact: 
     name: Patrick Escorsi
     email: patrick.silva@pagonxt.com
@@ -12,7 +12,7 @@ paths:
       summary: Listagem de Categorias
       responses: 
         200:
-          description: Sucesso
+          description: "Sucesso"
           content: 
             application/json:
               schema:
@@ -28,7 +28,7 @@ paths:
         required: true
       responses: 
         200:
-          description: Sucesso
+          description: "Sucesso"
           content: 
             application/json:
               schema:
@@ -56,6 +56,146 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Categoria"
+        401:
+          description: "Não autorizado"
+          content:
+            aplication/json:
+              example: "Verifique suas credenciais." 
+  /api/admin/categories/{id}:              
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    patch:
+      summary: Ativação de uma Categoria pelo ID
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+      responses:
+        202: 
+          description: "Sucesso"
+          content:
+            aplication/json:
+              example: "Categoria foi ativada com sucesso"
+    put:
+      summary: Alteração dos dados de uma Categoria
+      responses:
+        202:
+          description: "Sucesso"
+          content:
+            aplication/json:
+              schema:
+                $ref: "#/components/schemas/Categoria"
+        404:
+          description: "Categoria não encontrada"
+          content:
+            aplication/json:
+              example:  "Não foi possível encontrar a categoria"
+        500:
+          description: "Erro interno"
+    delete:
+      summary: Remoção de uma Categoria
+      responses:
+        200:
+          description: "Sucesso"
+          content:
+            aplication/json:
+              example: "Categoria removida"
+        404:
+          description: "Não foi possível encontrar a categoria"
+          content:
+            aplication/json:
+              example: "Categoria não encontrada"
+        500:
+          description: "Erro interno"
+  /api/products: 
+    get: 
+        summary: Listagem de Produtos
+        responses: 
+          200:
+            description: "Sucesso"
+            content: 
+              application/json:
+                schema:
+                    $ref: "#/components/schemas/Produtos"
+  /api/products/{id}:
+    get:
+      summary: Recupera um Produto pelo ID
+      parameters: 
+      - name: id
+        in: path
+        schema: 
+          type: string
+        required: true
+      responses: 
+        200:
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produto"
+        404: 
+          description: ID não encontrado
+          content: 
+            application/json:
+              example: "Não encontrado"
+  /api/admin/products:
+    post:
+      summary: Cria novo Produto
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+      responses:
+        201: 
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produto"
+  /api/admin/products/{id}: 
+    put:
+      summary: Alteração dos dados de um Produto
+      responses:
+        202:
+          description: "Sucesso"
+          content:
+            aplication/json:
+              schema:
+                $ref: "#/components/schemas/Produto"
+        404:
+          description: "Produto não encontrado"
+          content:
+            aplication/json:
+              example:  "Não foi possível encontrar o produto"
+        500:
+          description: "Erro interno"
+    delete:
+      summary: Remoção de um Produto
+      responses:
+        200:
+          description: "Sucesso"
+          content:
+            aplication/json:
+              example: "Produto removido"
+        404:
+          description: "Não foi possível encontrar o produto"
+          content:
+            aplication/json:
+                example: "Produto não encontrado"
+        500:
+          description: "Erro interno"  
 components: 
   schemas: 
     Categoria:
@@ -71,3 +211,22 @@ components:
       type: array
       items: 
         $ref: "#/components/schemas/Categoria"
+    Produto:
+      type: object
+      properties:
+        nomeProduto:
+          type: string
+        descricao:
+          type: string
+        slug:
+          type: string
+        precoUnitario:
+          type: number
+        quantidadeEstoque:
+          type: integer
+        categoria.id:
+          type: string
+    Produtos:
+      type: array
+      items:
+        $ref: "#/components/schemas/Produto"
