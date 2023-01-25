@@ -1,0 +1,73 @@
+openapi: 3.0.3
+info:
+  title: API de Produtos
+  description: Teste
+  version: 0.0.1
+  contact: 
+    name: Patrick Escorsi
+    email: patrick.silva@pagonxt.com
+paths: 
+  /api/categories: 
+    get: 
+      summary: Listagem de Categorias
+      responses: 
+        200:
+          description: Sucesso
+          content: 
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Categorias"
+  /api/categories/{id}:
+    get:
+      summary: Recupera uma Categoria pelo ID
+      parameters: 
+      - name: id
+        in: path
+        schema: 
+          type: string
+        required: true
+      responses: 
+        200:
+          description: Sucesso
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Categoria"
+        404: 
+          description: ID não encontrado
+          content: 
+            application/json:
+              example: "Not Found"
+  /api/admin/categories:
+    post:
+      summary: Cria nova categoria
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+      responses:
+        201: 
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Categoria"
+components: 
+  schemas: 
+    Categoria:
+      type: object
+      properties: 
+        id:
+          type: string
+        nome:
+          type: string
+        status:
+          type: string
+    Categorias: 
+      type: array
+      items: 
+        $ref: "#/components/schemas/Categoria"
