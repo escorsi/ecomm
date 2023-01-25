@@ -165,6 +165,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Produto"
   /api/admin/products/{id}: 
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
     put:
       summary: Alteração dos dados de um Produto
       responses:
