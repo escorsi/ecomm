@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: API de Usuários
-  description: API para controle dos usuários de um Ecommerce.
+  description: API para controle dos usuários e pedidos de um Ecommerce.
   version: 0.0.1
   contact: 
     name: Patrick Escorsi
@@ -53,7 +53,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Usuario"
-  /api/admin/products/{id}: 
+  /api/admin/accounts/{id}: 
     parameters:
     - name: id
       in: path
@@ -64,18 +64,21 @@ paths:
       summary: Alteração dos dados de um Usuário
       responses:
         202:
-          description: "Sucesso"
+          description: "Usuário alterado com sucesso"
           content:
             aplication/json:
               schema:
                 $ref: "#/components/schemas/Usuario"
+        401:
+          description: "Desautorizado"
+          content:
+            aplication/json:
+              example: "Acesso negado!"
         404:
           description: "Usuário não encontrado"
           content:
             aplication/json:
               example:  "Não foi possível encontrar o usuário"
-        500:
-          description: "Erro interno"
     delete:
       summary: Remoção de um Usuário
       responses:
@@ -121,7 +124,7 @@ paths:
           description: ID não encontrado
           content: 
             application/json:
-              example: "Não encontrado"
+              example: "Pedido não encontrado"
   /api/admin/orders:
     post:
       summary: Cria novo Pedido
@@ -132,7 +135,7 @@ paths:
               $ref: "#/components/schemas/Order"
       responses:
         201: 
-          description: "Sucesso"
+          description: "Pedido criado com sucesso!"
           content: 
             application/json:
               schema:

@@ -88,18 +88,21 @@ paths:
       summary: Alteração dos dados de uma Categoria
       responses:
         202:
-          description: "Sucesso"
+          description: "Categoria alterada com sucesso!"
           content:
             aplication/json:
               schema:
                 $ref: "#/components/schemas/Categoria"
+        401:
+          description: "Desautorizado"
+          content:
+            aplication/json:
+              example:  "Acesso negado!"
         404:
           description: "Categoria não encontrada"
           content:
             aplication/json:
               example:  "Não foi possível encontrar a categoria"
-        500:
-          description: "Erro interno"
     delete:
       summary: Remoção de uma Categoria
       responses:
@@ -113,8 +116,6 @@ paths:
           content:
             aplication/json:
               example: "Categoria não encontrada"
-        500:
-          description: "Erro interno"
   /api/products: 
     get: 
         summary: Listagem de Produtos
@@ -145,7 +146,7 @@ paths:
           description: ID não encontrado
           content: 
             application/json:
-              example: "Não encontrado"
+              example: "Produto não encontrado"
   /api/admin/products:
     post:
       summary: Cria novo Produto
@@ -153,13 +154,10 @@ paths:
         content: 
           application/json:
             schema:
-              type: object
-              properties:
-                nome:
-                  type: string
+              $ref: "#/components/schemas/Produto"
       responses:
         201: 
-          description: "Sucesso"
+          description: "Produto criado com sucesso!"
           content: 
             application/json:
               schema:
@@ -175,7 +173,7 @@ paths:
       summary: Alteração dos dados de um Produto
       responses:
         202:
-          description: "Sucesso"
+          description: "Produto alterado com sucesso!"
           content:
             aplication/json:
               schema:
@@ -184,14 +182,12 @@ paths:
           description: "Produto não encontrado"
           content:
             aplication/json:
-              example:  "Não foi possível encontrar o produto"
-        500:
-          description: "Erro interno"
+              example:  "Produto não encontrado"
     delete:
       summary: Remoção de um Produto
       responses:
         200:
-          description: "Sucesso"
+          description: "Produto removido com sucesso!"
           content:
             aplication/json:
               example: "Produto removido"
@@ -200,8 +196,6 @@ paths:
           content:
             aplication/json:
                 example: "Produto não encontrado"
-        500:
-          description: "Erro interno"  
 components: 
   schemas: 
     Categoria:
@@ -230,7 +224,7 @@ components:
           type: number
         quantidadeEstoque:
           type: integer
-        categoria.id:
+        id_categoria:
           type: string
     Produtos:
       type: array
