@@ -196,6 +196,59 @@ paths:
           content:
             aplication/json:
                 example: "Produto não encontrado"
+  /api/products/forprice:
+    get:
+      parameters:
+      - name: precoUnitario
+        in: query
+        schema:
+          type: object
+          properties:
+            min:
+              type: number
+            max:
+              type: number
+        required: true
+      summary: Lista produtos em uma faixa de preço
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produtos"
+  /api/products/forcategory:
+    get:
+      parameters:
+      - name: categoria
+        in: query
+        schema:
+          type: string
+        required: true
+      summary: Lista produtos de uma categoria
+      responses:
+        200:
+          description: "Sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produtos"
+  /api/products/forstock:
+    get:
+      parameters:
+      - name: quantidadeEstoque
+        in: query
+        schema:
+          type: integer
+        required: true
+      summary: Recupera produtos pela quantidade em estoque
+      responses:
+        200:
+          description: "Sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produtos"
 components: 
   schemas: 
     Categoria:
