@@ -1,0 +1,33 @@
+use('ecomm-product');
+
+var quantidadePedido = 2;
+var desconto = NumberDecimal("300.0");
+var produto = db.products.findOneAndUpdate({
+    nomeProduto: "Galaxy Tab S8", 
+    quantidadeEstoque: {$gte: quantidadePedido}
+}, {
+    $inc: {quantidadeEstoque: -quantidadePedido}
+}, {
+    projection: {
+        nomeProduto: 1,
+        slug: 1,
+        precoUnitario: 1,
+    }
+})
+
+produto['quantidadePedido'] = quantidadePedido;
+produto['desconto'] = desconto;
+produto['valorTotal'] = quantidadePedido * produto.precoUnitario;
+produto['valorFinal'] = produto.valorTotal - produto.desconto;
+
+use('ecomm-account');
+db.users.updateOne({
+    nome: "Olnar"
+},{
+    $push: {
+        "carrinho.produtos": {
+            $each: [produto]
+        }
+    }
+})
+

@@ -1,26 +1,26 @@
 use('ecomm-product');
 db.categories.insertMany([{
-	"NOME": "INFORMÁTICA",
-	"STATUS": "ATIVA"	
+	nome: "INFORMÁTICA",
+	status: "ATIVA"	
 },{
-	"NOME": "BELEZA",
-	"STATUS": "INATIVA"
+	nome: "BELEZA",
+	status: "INATIVA"
 },{
-	"NOME": "CELULARES",
-	"STATUS": "ATIVA"
+	nome: "CELULARES",
+	status: "ATIVA"
 },{
-	"NOME": "MÓVEIS",
-	"STATUS": "ATIVA"
+	nome: "MÓVEIS",
+	status: "ATIVA"
 },{
-	"NOME": "LUXO",
-	"STATUS": "INATIVA"
+	nome: "LUXO",
+	status: "INATIVA"
 },{
-	"NOME": "ESPORTE",
-	"STATUS": "INATIVA"
+	nome: "ESPORTE",
+	status: "INATIVA"
 },{
-	"Nome": "AUTOMOTIVA",
-	"STATUS": "ATIVA"
+	nome: "AUTOMOTIVA",
+	status: "ATIVA"
 },{
-	"NOME": "LIVROS",
-	"STATUS": "ATIVA"
+	nome: "LIVROS",
+	status: "ATIVA"
 }])

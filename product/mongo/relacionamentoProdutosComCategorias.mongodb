@@ -1,15 +1,13 @@
 use('ecomm-product');
 
-db.categories.find({"STATUS": "ATIVA"}).forEach((category) => {
-    db.products.updateMany({
-        "CATEGORIA": { $eq: category.NOME }
-    }, {
-        $set: {
-            'categoria.categoria_id': category._id,
-            'categoria.nome': category.NOME
-        }
-    })
-});
+db.products.find({}).forEach((product) => {
+    let category = db.categories.findOne({"nome": product.categoria});
 
+    product.categoria = {
+         _id: category._id,
+        nome: category.nome
+    };
 
+    db.products.replaceOne( {"_id": product._id}, product)
+})
 

@@ -1,0 +1,72 @@
+use('ecomm-account');
+db.users.aggregate([
+    {
+        $match: {
+            nome: "Olnar"
+        }
+    }, {
+        $project: {
+            _id: 0,
+            id_usuario: "$_id",
+            nome: "$nome",
+            data: ISODate(),
+            produtos: "$carrinho.produtos",
+            endereco: {
+                rua: "Rua da Pedra do Reino",
+                numero: 725,
+                complemento: "",
+                cep: "58069-545",
+                cidade: "João Pessoa",
+                estado: "PB"
+            }
+        }
+    }, {
+        $merge: {
+            into: {db: 'ecomm-order', coll: 'orders'}
+        }
+    }
+])
+
+db.users.updateOne({
+    nome: 'Olnar'
+}, {
+    $set: {
+        'carrinho.produtos': []
+    }
+});
+
+db.users.aggregate([
+    {
+        $match: {
+            nome: "Cayis"
+        }
+    }, {
+        $project: {
+            _id: 0,
+            id_usuario: "$_id",
+            nome: "$nome",
+            data: ISODate(),
+            produtos: "$carrinho.produtos",
+            endereco: {
+                rua: "Rua Doutor Pergentino Maia",
+                numero: 2121,
+                complemento: "Casa 6",
+                cep: "60840-045",
+                cidade: "Fortaleza",
+                estado: "CE",
+            }
+        }
+    }, {
+        $merge: {
+            into: {db: 'ecomm-order', coll: 'orders'}
+        }
+    }
+])
+
+db.users.updateOne({
+    nome: 'Cayis'
+}, {
+    $set: {
+        'carrinho.produtos': []
+    }
+});

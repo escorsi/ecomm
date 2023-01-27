@@ -1,5 +1,4 @@
 use('ecomm-product');
 
-db.products.createIndex({"SLUG": 1}, {unique: true});
-db.products.createIndex({"categoria.nome": 1});
-db.products.createIndex({"PREÇO UNITÁRIO": 1});
+db.products.createIndex({slug: 1}, {unique: true});
+db.products.createIndex({precoUnitario: 1});

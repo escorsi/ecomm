@@ -1,0 +1,87 @@
+use('ecomm-account');
+
+db.users.insertMany([{
+    cpf: "665.072.150-66",
+	nome: "Olnar",
+	email: "olnar@example.com",
+	senha: "$2a$04$NY99LIzskvAP5c/PmtVLpuGFScNV8yHy4O0qoBuOBl3tSiyU1h2GC",
+    telefone: "123456789",
+	dataCriacao: ISODate(),
+	endereco: {
+        rua: "Rua da Pedra do Reino",
+        numero: 725,
+        complemento: "",
+        cep: "58069-545",
+        cidade: "João Pessoa",
+        estado: "PB",
+    },
+    carrinho: {
+        produtos: []
+    }
+}, {
+    cpf: "952.015.660-73",
+	nome: "Cayis",
+	email: "cayis@example.com",
+	senha: "$2a$05$oDSXxXY3tT91m4lJWOqJRu8Agb9sjyZfNrARXyo7NE3gsxc/i06GK",
+    telefone: "999999999",
+	dataCriacao: ISODate(),
+	endereco: {
+        rua: "Rua Doutor Pergentino Maia",
+        numero: 2121,
+        complemento: "Casa 6",
+        cep: "60840-045",
+        cidade: "Fortaleza",
+        estado: "CE",
+    },
+    carrinho: {
+        produtos: []
+    }
+}, {
+    cpf: "345.071.270-50",
+	nome: "Naxun",
+	email: "naxun@example.com",
+	senha: "$2a$06$auJRH54sI2NRT8sCEiEweu.aNLf29qEn18DGO2PtZEukq9avKFA4W",
+    telefone: "111111111",
+	dataCriacao: ISODate(),
+	endereco: {
+        rua: "Rua Boca de Leão",
+        numero: 123,
+        complemento: "Apto 9",
+        cep: "54280-536",
+        cidade: "Jaboatão dos Guararapes",
+        estado: "PE",
+    },
+    carrinho: {
+        produtos: []
+    }
+}])
+
+db.users.aggregate([{
+    $group: {
+        _id: "$cpf",
+        cpf: {
+             $first: "$cpf"
+        },
+        email: {
+            $first: "$email"
+        },
+        senha: {
+            $first: "$senha"
+        }
+    }
+}, {
+        $project: {
+            _id: 0
+        }
+}, {
+    $out: "usersInfo"
+}])
+
+use('ecomm-account');
+db.users.find({}).forEach(function(usuario) {
+    usuario.id_info = db.usersInfo.findOne({cpf: usuario.cpf})._id;
+    delete usuario.cpf;
+    delete usuario.email;
+    delete usuario.senha;
+    db.users.replaceOne({_id: usuario._id}, usuario)
+})  
