@@ -1,0 +1,217 @@
+openapi: 3.0.3
+info:
+  title: API de Usuários
+  description: API para controle dos usuários e pedidos de um Ecommerce.
+  version: 0.0.1
+  contact: 
+    name: Patrick Escorsi
+    email: patrick.silva@pagonxt.com
+paths: 
+  /api/accounts: 
+    get: 
+        summary: Listagem de Usuários
+        responses: 
+          200:
+            description: "Sucesso"
+            content: 
+              application/json:
+                schema:
+                    $ref: "#/components/schemas/Usuarios"
+  /api/accounts/{id}:
+    get:
+      summary: Recupera um Usuário pelo ID
+      parameters: 
+      - name: id
+        in: path
+        schema: 
+          type: string
+        required: true
+      responses: 
+        200:
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Usuario"
+        404: 
+          description: ID não encontrado
+          content: 
+            application/json:
+              example: "Não encontrado"
+  /api/admin/accounts:
+    post:
+      summary: Cria novo Usuário
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Usuario"
+      responses:
+        201: 
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Usuario"
+  /api/admin/accounts/{id}: 
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      summary: Alteração dos dados de um Usuário
+      responses:
+        202:
+          description: "Usuário alterado com sucesso"
+          content:
+            aplication/json:
+              schema:
+                $ref: "#/components/schemas/Usuario"
+        401:
+          description: "Desautorizado"
+          content:
+            aplication/json:
+              example: "Acesso negado!"
+        404:
+          description: "Usuário não encontrado"
+          content:
+            aplication/json:
+              example:  "Não foi possível encontrar o usuário"
+    delete:
+      summary: Remoção de um Usuário
+      responses:
+        200:
+          description: "Sucesso"
+          content:
+            aplication/json:
+              example: "Usuário removido"
+        404:
+          description: "Não foi possível encontrar o usuário"
+          content:
+            aplication/json:
+                example: "Usuário não encontrado"
+        500:
+          description: "Erro interno"  
+  /api/orders: 
+    get: 
+        summary: Listagem de Pedidos
+        responses: 
+          200:
+            description: "Sucesso"
+            content: 
+              application/json:
+                schema:
+                    $ref: "#/components/schemas/Orders"
+  /api/orders/{id}:
+    get:
+      summary: Recupera um Pedido pelo ID
+      parameters: 
+      - name: id
+        in: path
+        schema: 
+          type: string
+        required: true
+      responses: 
+        200:
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        404: 
+          description: ID não encontrado
+          content: 
+            application/json:
+              example: "Pedido não encontrado"
+  /api/admin/orders:
+    post:
+      summary: Cria novo Pedido
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+      responses:
+        201: 
+          description: "Pedido criado com sucesso!"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"        
+components: 
+  schemas: 
+    Usuario: 
+      type: object
+      properties:
+        _id:
+          type: string
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        cpf:
+          type: string
+        telefone:
+          type: string
+        endereco:
+          type: object
+          properties:
+            rua:
+              type: string
+            numero:
+              type: string
+            complemento:
+              type: string
+            cep:
+              type: string
+            cidade:
+              type: string
+            estado:
+              type: string
+    Usuarios:
+      type: array
+      items:
+        $ref: "#/components/schemas/Usuario"
+    Order:
+      type: object
+      properties:
+        _id:
+          type: string
+        id_usuario:
+          type: string
+        endereco:
+          type: object
+          properties:
+            rua:
+              type: string
+            numero:
+              type: string
+            complemento:
+              type: string
+            cep:
+              type: string
+            cidade:
+              type: string
+            estado:
+              type: string
+        carrinho:
+          type: array 
+          items:
+            type: object
+            properties:
+              produto_id:
+                type: string
+              quantidadeTotal: 
+                type: integer
+              montanteTotal:
+                type: number
+              descontoTotal:
+                type: number
+    Orders:
+      type: array
+      items:
+        $ref: "#/components/schemas/Order"

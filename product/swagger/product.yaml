@@ -1,0 +1,285 @@
+openapi: 3.0.3
+info:
+  title: API de Produtos
+  description: API para controle de um Ecommerce.
+  version: 0.0.2
+  contact: 
+    name: Patrick Escorsi
+    email: patrick.silva@pagonxt.com
+paths: 
+  /api/categories: 
+    get: 
+      summary: Listagem de Categorias
+      responses: 
+        200:
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Categorias"
+  /api/categories/{id}:
+    get:
+      summary: Recupera uma Categoria pelo ID
+      parameters: 
+      - name: id
+        in: path
+        schema: 
+          type: string
+        required: true
+      responses: 
+        200:
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Categoria"
+        404: 
+          description: ID não encontrado
+          content: 
+            application/json:
+              example: "Not Found"
+  /api/admin/categories:
+    post:
+      summary: Cria nova categoria
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+      responses:
+        201: 
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Categoria"
+        401:
+          description: "Não autorizado"
+          content:
+            aplication/json:
+              example: "Verifique suas credenciais." 
+  /api/admin/categories/{id}:              
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    patch:
+      summary: Ativação de uma Categoria pelo ID
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+      responses:
+        202: 
+          description: "Sucesso"
+          content:
+            aplication/json:
+              example: "Categoria foi ativada com sucesso"
+    put:
+      summary: Alteração dos dados de uma Categoria
+      responses:
+        202:
+          description: "Categoria alterada com sucesso!"
+          content:
+            aplication/json:
+              schema:
+                $ref: "#/components/schemas/Categoria"
+        401:
+          description: "Desautorizado"
+          content:
+            aplication/json:
+              example:  "Acesso negado!"
+        404:
+          description: "Categoria não encontrada"
+          content:
+            aplication/json:
+              example:  "Não foi possível encontrar a categoria"
+    delete:
+      summary: Remoção de uma Categoria
+      responses:
+        200:
+          description: "Sucesso"
+          content:
+            aplication/json:
+              example: "Categoria removida"
+        404:
+          description: "Não foi possível encontrar a categoria"
+          content:
+            aplication/json:
+              example: "Categoria não encontrada"
+  /api/products: 
+    get: 
+        summary: Listagem de Produtos
+        responses: 
+          200:
+            description: "Sucesso"
+            content: 
+              application/json:
+                schema:
+                    $ref: "#/components/schemas/Produtos"
+  /api/products/{id}:
+    get:
+      summary: Recupera um Produto pelo ID
+      parameters: 
+      - name: id
+        in: path
+        schema: 
+          type: string
+        required: true
+      responses: 
+        200:
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produto"
+        404: 
+          description: ID não encontrado
+          content: 
+            application/json:
+              example: "Produto não encontrado"
+  /api/admin/products:
+    post:
+      summary: Cria novo Produto
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Produto"
+      responses:
+        201: 
+          description: "Produto criado com sucesso!"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produto"
+  /api/admin/products/{id}: 
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      summary: Alteração dos dados de um Produto
+      responses:
+        202:
+          description: "Produto alterado com sucesso!"
+          content:
+            aplication/json:
+              schema:
+                $ref: "#/components/schemas/Produto"
+        404:
+          description: "Produto não encontrado"
+          content:
+            aplication/json:
+              example:  "Produto não encontrado"
+    delete:
+      summary: Remoção de um Produto
+      responses:
+        200:
+          description: "Produto removido com sucesso!"
+          content:
+            aplication/json:
+              example: "Produto removido"
+        404:
+          description: "Não foi possível encontrar o produto"
+          content:
+            aplication/json:
+                example: "Produto não encontrado"
+  /api/products/forprice:
+    get:
+      parameters:
+      - name: precoUnitario
+        in: query
+        schema:
+          type: object
+          properties:
+            min:
+              type: number
+            max:
+              type: number
+        required: true
+      summary: Lista produtos em uma faixa de preço
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produtos"
+  /api/products/forcategory:
+    get:
+      parameters:
+      - name: categoria
+        in: query
+        schema:
+          type: string
+        required: true
+      summary: Lista produtos de uma categoria
+      responses:
+        200:
+          description: "Sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produtos"
+  /api/products/forstock:
+    get:
+      parameters:
+      - name: quantidadeEstoque
+        in: query
+        schema:
+          type: integer
+        required: true
+      summary: Recupera produtos pela quantidade em estoque
+      responses:
+        200:
+          description: "Sucesso"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Produtos"
+components: 
+  schemas: 
+    Categoria:
+      type: object
+      properties: 
+        id:
+          type: string
+        nome:
+          type: string
+        status:
+          type: string
+    Categorias: 
+      type: array
+      items: 
+        $ref: "#/components/schemas/Categoria"
+    Produto:
+      type: object
+      properties:
+        nomeProduto:
+          type: string
+        descricao:
+          type: string
+        slug:
+          type: string
+        precoUnitario:
+          type: number
+        quantidadeEstoque:
+          type: integer
+        id_categoria:
+          type: string
+    Produtos:
+      type: array
+      items:
+        $ref: "#/components/schemas/Produto"
