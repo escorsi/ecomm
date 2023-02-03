@@ -1,7 +1,8 @@
 import categories from "../models/Categorie.js";
 
+const regexNome = /^[^0-9]/;
 class CategorieController {
-    
+
   static listCategories = (req, res) => {
     categories.find((err, categories) => {
         res.status(200).json(categories)
@@ -24,13 +25,17 @@ class CategorieController {
   static insertCategorie = (req, res) => {
     let categorie = new categories(req.body);
 
-    categorie.save((err) => {
-      if(err) {
-        res.status(500).send({message: `${err.message} - Falha ao cadastrar categoria.`})
-      } else {
-        res.status(201).send(categorie.toJSON())
-      }
-    })
+    if(categorie.nome.length > 3 && regexNome.test(categorie.nome)) {
+      categorie.save((err) => {
+        if(err) {
+          res.status(500).send({message: `${err.message} - Falha ao cadastrar categoria.`})
+        } else {
+          res.status(201).send(categorie.toJSON())
+        }
+      })
+    } else {
+      res.status(500).send({message: `Não foi possível inserir essa categoria.`})
+    }
   }
 
   static updateCategorie = (req, res) => {
