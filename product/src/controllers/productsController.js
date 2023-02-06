@@ -1,6 +1,8 @@
 import products from "../models/Product.js";
 import categories from '../models/Categorie.js';
 
+const regexNome = /^[^\d]/;
+const regexSlug = /^[a-zA-Z0-9-]+$/;
 class ProductController {
     
   static listProducts = (req, res) => {
@@ -39,7 +41,7 @@ class ProductController {
             }
           })
         } else {
-          res.status(500).send({message: `Categoria inválida! Não foi possível inserir esse produto.`})
+          res.status(404).send({message: `Categoria inválida! Não foi possível inserir esse produto.`})
         }
       })
     } else {
@@ -50,13 +52,25 @@ class ProductController {
   static updateProduct = (req, res) => {
     const id = req.params.id;
 
-    products.findByIdAndUpdate(id, {$set: req.body}, (err) => {
-      if(!err) {
-        res.status(200).send({message: 'Produto atualizado com sucesso!'})
-      } else {
-        res.status(500).send({message: err.message})
-      }
-    })
+    if(req.body.nomeProduto.length > 3 && regexNome.test(req.body.nomeProduto) &&
+    req.body.precoUnitario > 0 &&  req.body.quantidadeEstoque > 0 &&  req.body.quantidadeEstoque < 10000 && 
+    regexSlug.test(req.body.slug)) {
+      categories.findById(req.body.categoria.categoria_id, (err) => {
+        if(!err) {
+          products.findByIdAndUpdate(id, {$set: req.body}, (err) => {
+            if(!err) {
+              res.status(200).send({message: 'Produto atualizado com sucesso!'})
+            } else {
+              res.status(500).send({message: err.message})
+            }
+          })
+        } else {
+          res.status(404).send({message: `Não foi possível atualizar esse produto.`})
+        }
+      })
+    } else {
+      res.status(500).send({message: `Não foi possível atualizar esse produto.`})
+    }
   }
 
   static deleteProduct = (req, res) => {
@@ -73,16 +87,12 @@ class ProductController {
 }
 
 function validation(product) {
-  const regexNome = /^[^0-9]/;
-  const regexSlug = /^[a-zA-Z0-9-]+$/;
+  if(product.nomeProduto.length > 3 && regexNome.test(product.nomeProduto) &&
+    product.precoUnitario > 0 &&  product.quantidadeEstoque > 0 &&  product.quantidadeEstoque < 10000 && 
+    regexSlug.test(product.slug)) {
+      return true;
+  }
 
-        if(product.nomeProduto.length > 3 && regexNome.test(product.nomeProduto) &&
-          product.precoUnitario > 0 &&  product.quantidadeEstoque > 0 &&  product.quantidadeEstoque < 10000 && 
-          regexSlug.test(product.slug)) {
-            return true;
-        }
-
-    return false;
 }
 
 

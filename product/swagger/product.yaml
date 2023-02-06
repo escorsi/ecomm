@@ -196,7 +196,7 @@ paths:
           content:
             aplication/json:
                 example: "Produto não encontrado"
-  /api/products/forprice:
+  /api/products/by-price:
     get:
       parameters:
       - name: precoUnitario
@@ -217,7 +217,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Produtos"
-  /api/products/forcategory:
+  /api/products/by-category:
     get:
       parameters:
       - name: categoria
@@ -233,7 +233,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Produtos"
-  /api/products/forstock:
+  /api/products/by-stock:
     get:
       parameters:
       - name: quantidadeEstoque

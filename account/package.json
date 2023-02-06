@@ -2,12 +2,21 @@
   "name": "account",
   "version": "1.0.0",
   "description": "",
-  "main": "test/createUserAccount.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "node test/createUserAccount.test.js",
+    "dev": "nodemon server.js",
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Patrick Escorsi",
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mongoose": "^6.2.6",
+    "swagger-ui-express": "^4.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }

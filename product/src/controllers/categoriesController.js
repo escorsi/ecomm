@@ -1,6 +1,6 @@
 import categories from "../models/Categorie.js";
 
-const regexNome = /^[^0-9]/;
+const regexNome = /^[^\d]/;
 class CategorieController {
 
   static listCategories = (req, res) => {
