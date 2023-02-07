@@ -7,7 +7,7 @@ info:
     name: Patrick Escorsi
     email: patrick.silva@pagonxt.com
 paths: 
-  /api/accounts: 
+  /api/admin/accounts: 
     get: 
         summary: Listagem de Usuários
         responses: 
@@ -17,6 +17,20 @@ paths:
               application/json:
                 schema:
                     $ref: "#/components/schemas/Usuarios"
+    post:
+      summary: Cria novo Usuário
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Usuario"
+      responses:
+        201: 
+          description: "Sucesso"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Usuario"
   /api/accounts/{id}:
     get:
       summary: Recupera um Usuário pelo ID
@@ -38,21 +52,6 @@ paths:
           content: 
             application/json:
               example: "Não encontrado"
-  /api/admin/accounts:
-    post:
-      summary: Cria novo Usuário
-      requestBody:
-        content: 
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Usuario"
-      responses:
-        201: 
-          description: "Sucesso"
-          content: 
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Usuario"
   /api/admin/accounts/{id}: 
     parameters:
     - name: id
@@ -104,6 +103,20 @@ paths:
               application/json:
                 schema:
                     $ref: "#/components/schemas/Orders"
+    post:
+      summary: Cria novo Pedido
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+      responses:
+        201: 
+          description: "Pedido criado com sucesso!"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order" 
   /api/orders/{id}:
     get:
       summary: Recupera um Pedido pelo ID
@@ -124,22 +137,7 @@ paths:
           description: ID não encontrado
           content: 
             application/json:
-              example: "Pedido não encontrado"
-  /api/admin/orders:
-    post:
-      summary: Cria novo Pedido
-      requestBody:
-        content: 
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Order"
-      responses:
-        201: 
-          description: "Pedido criado com sucesso!"
-          content: 
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"        
+              example: "Pedido não encontrado"       
 components: 
   schemas: 
     Usuario: 

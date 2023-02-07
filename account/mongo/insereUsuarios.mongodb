@@ -1,6 +1,6 @@
 use('ecomm-account');
 
-db.users.insertMany([{
+db.accounts.insertMany([{
     cpf: "665.072.150-66",
 	nome: "Olnar",
 	email: "olnar@example.com",
@@ -56,7 +56,7 @@ db.users.insertMany([{
     }
 }])
 
-db.users.aggregate([{
+db.accounts.aggregate([{
     $group: {
         _id: "$cpf",
         cpf: {
@@ -74,14 +74,14 @@ db.users.aggregate([{
             _id: 0
         }
 }, {
-    $out: "usersInfo"
+    $out: "accountsInfo"
 }])
 
 use('ecomm-account');
-db.users.find({}).forEach(function(usuario) {
-    usuario.id_info = db.usersInfo.findOne({cpf: usuario.cpf})._id;
+db.accounts.find({}).forEach(function(usuario) {
+    usuario.id_info = db.accountsInfo.findOne({cpf: usuario.cpf})._id;
     delete usuario.cpf;
     delete usuario.email;
     delete usuario.senha;
-    db.users.replaceOne({_id: usuario._id}, usuario)
+    db.accounts.replaceOne({_id: usuario._id}, usuario)
 })  

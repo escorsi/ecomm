@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.3",
+    "mongoose": "^6.2.6",
+    "swagger-ui-express": "^4.6.0"
+  }
+}
