@@ -20,9 +20,18 @@ class PaymentController {
         const { id }= req.params;
         const status = req.body
         try {
-            await database.Payments.update(status, {where: {id: Number(id)}})
-            const statusAtualizado = await database.Payments.findOne({where: {id: Number(id)}})
-            return res.status(200).json(statusAtualizado)
+            const onePayment = await database.Payments.findOne({ 
+                where: { 
+                id: Number(id) 
+                }
+            })
+            if (onePayment.status == 'CRIADO') {
+                await database.Payments.update(status, {where: {id: Number(id)}})
+                const statusAtualizado = await database.Payments.findOne({where: {id: Number(id)}})
+                return res.status(200).json(statusAtualizado)
+            } else {
+                return res.status(400).json('Não foi possível realizar a alteração!')
+            }
         } catch(error) {
             return res.status(500).json(error.message)
         }
