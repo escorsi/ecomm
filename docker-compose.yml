@@ -10,6 +10,11 @@ services:
     container_name: ecomm-account
     ports:
       - "3001:3001"
+  order:
+    build: ./order
+    container_name: ecomm-order
+    ports:
+      - "3002:3002"
   mongodb:
     container_name: mongo-ecomm
     image: mongo
@@ -29,3 +34,7 @@ services:
       - '3306:3306'
     volumes:
       - volmysql:/var/lib/mysql
+
+volumes:
+  volmysql: 
+    driver:  local

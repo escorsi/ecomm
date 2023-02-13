@@ -1,0 +1,11 @@
+import express from "express";
+import OrderController from "../controllers/OrderController.js";
+
+const router = express.Router();
+
+router
+  .get('/api/admin/orders/:id', OrderController.findOrder)
+  .patch('/api/admin/orders/:id', OrderController.updateOrder)
+  .post('/api/admin/orders', OrderController.insertOrder)
+
+export default router;   
