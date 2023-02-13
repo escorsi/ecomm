@@ -1,7 +1,7 @@
 FROM node
-WORKDIR /app-node-product
+WORKDIR /app-node-finance
 COPY package.json .
 COPY . .
 RUN npm install
-EXPOSE 3000
+EXPOSE 3003
 ENTRYPOINT npm start

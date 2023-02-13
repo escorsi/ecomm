@@ -5,7 +5,7 @@ const router = express.Router();
 
 router
   .get("/api/categories", CategorieController.listCategories)
-  .get("/api/categories/:id", CategorieController.listCategorieId)
+  .get("/api/categories/:id", CategorieController.findCategorieById)
   .post("/api/admin/categories", CategorieController.insertCategorie)
   .put("/api/admin/categories/:id", CategorieController.updateCategorie)
   .delete("/api/admin/categories/:id", CategorieController.deleteCategorie)

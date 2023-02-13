@@ -5,7 +5,7 @@ const router = express.Router();
 
 router
   .get("/api/products", ProductController.listProducts)
-  .get("/api/products/:id", ProductController.listProductId)
+  .get("/api/products/:id", ProductController.findProductById)
   .post("/api/admin/products", ProductController.insertProduct)
   .put("/api/admin/products/:id", ProductController.updateProduct)
   .delete("/api/admin/products/:id", ProductController.deleteProduct)

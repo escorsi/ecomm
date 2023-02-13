@@ -2,13 +2,13 @@ import orders from "../models/Order.js";
 
 class OrderController {
     
-  static findOrder = (req, res) => {
+  static findOrderById = (req, res) => {
     const id = req.params.id;
 
     orders.findById(id)
       .exec((err, orders) => {
       if(err) {
-        res.status(400).send({message: `${err.message} - Id do pedido não localizado.`})
+        res.status(404).send({message: `${err.message} - Id do pedido não localizado.`})
       } else {
         res.status(200).send(orders);
       }

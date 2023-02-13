@@ -5,19 +5,23 @@ class CategorieController {
 
   static listCategories = (req, res) => {
     categories.find((err, categories) => {
+      if(err) {
+        res.status(404).send({message: `${err.message} - Categorias não localizadas.`})
+      } else {
         res.status(200).json(categories)
+      }
     })
   }
 
-  static listCategorieId = (req, res) => {
+  static findCategorieById = (req, res) => {
     const id = req.params.id;
 
     categories.findById(id)
       .exec((err, categories) => {
       if(err) {
-        res.status(400).send({message: `${err.message} - Id da categoria não localizado.`})
+        res.status(404).send({message: `${err.message} - Id da categoria não localizado.`})
       } else {
-        res.status(200).send(categories);
+        res.status(200).send(categories)
       }
     })
   }

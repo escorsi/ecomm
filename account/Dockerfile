@@ -1,7 +1,6 @@
-FROM node:14
+FROM node
 WORKDIR /app-node-account
 COPY package.json .
-COPY package-lock.json .
 COPY . .
 RUN npm install
 EXPOSE 3001

@@ -13,17 +13,21 @@ class AccountController {
   static listAccounts = (req, res) => {
      accounts.find()
         .exec((err, accounts) => {
-          res.status(200).json(accounts)
+          if(err) {
+            res.status(404).send({message: `${err.message} - Usuários não localizados.`})
+          } else {
+            res.status(200).json(accounts)
+          }
     })
   }
 
-  static listAccountId = (req, res) => {
+  static findAccountById = (req, res) => {
     const id = req.params.id;
 
     accounts.findById(id)
       .exec((err, accounts) => {
       if(err) {
-        res.status(400).send({message: `${err.message} - Id do usuário não localizado.`})
+        res.status(404).send({message: `${err.message} - Id do usuário não localizado.`})
       } else {
         res.status(200).send(accounts);
       }
