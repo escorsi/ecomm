@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: 'CRIADO',
       validate: {
         notEmpty: true,
         isIn: [['CRIADO', 'CONFIRMADO', 'CANCELADO']]

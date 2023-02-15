@@ -16,7 +16,7 @@ class OrderController {
   }
 
   static insertOrder = (req, res) => {
-    let order = new orders(req.body);
+    let order = new orders({...req.body, status: "REALIZADO"});
     order.save((err) => {
         if(err) {
           res.status(500).send({message: `${err.message} - Falha ao cadastrar pedido.`})
@@ -26,9 +26,9 @@ class OrderController {
       })
   }
 
-  static updateOrder = (req, res) => {
+  static confirmOrder = (req, res) => {
     const id = req.params.id;
-
+ //   const status = "PAGO";
 
           orders.findByIdAndUpdate(id, {$set: req.body}, (err) => {
             if(!err) {
@@ -38,7 +38,6 @@ class OrderController {
             }
           })
   }
-
 
 }
 

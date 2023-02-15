@@ -34,7 +34,6 @@ class ProductController {
   static insertProduct = (req, res) => {
     let product = new products(req.body);
 
-    if(validation(product)) {
       categories.findById(product.categoria.categoria_id, (err) => {
         if(!err) {
           product.save((err) => {
@@ -48,17 +47,12 @@ class ProductController {
           res.status(404).send({message: `Categoria inválida! Não foi possível inserir esse produto.`})
         }
       })
-    } else {
-      res.status(500).send({message: `Não foi possível inserir esse produto.`})
-    }
   }
 
   static updateProduct = (req, res) => {
     const id = req.params.id;
 
-    if(req.body.nomeProduto.length > 3 && regexNome.test(req.body.nomeProduto) &&
-    req.body.precoUnitario > 0 &&  req.body.quantidadeEstoque > 0 &&  req.body.quantidadeEstoque < 10000 && 
-    regexSlug.test(req.body.slug)) {
+    if(validation(req.body)) {
       categories.findById(req.body.categoria.categoria_id, (err) => {
         if(!err) {
           products.findByIdAndUpdate(id, {$set: req.body}, (err) => {
