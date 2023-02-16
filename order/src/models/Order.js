@@ -12,14 +12,25 @@ const adressSchema = new mongoose.Schema(
   }
 )
 
+const productsSchema = new mongoose.Schema(
+  {
+      id: {type: String, required: true},
+      nome: {type: String, required: true},
+      quantidadePedido: {type: Number, required: true},
+      desconto: {type: Number, required: true},
+      valorTotal: {type: Number, required: true}
+  }
+)
+
 const orderSchema = new mongoose.Schema(
   {
     id: {type: String},
     data: {type: Date, required: true},
-    adress: {type: adressSchema, required: true},
+    endereco: {type: adressSchema, required: true},
     id_usuario: {type: String, required: true},
     nome: {type: String, required: true},
-    produtos: {type: Array, required: true}
+    cpf: {type: String, required: true},
+    produtos: [{type: productsSchema, required: true}]
   }
 );
 

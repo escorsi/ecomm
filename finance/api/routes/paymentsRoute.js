@@ -4,7 +4,7 @@ const PaymentController = require('../controllers/PaymentController')
 const router = Router()
 
 router
-  .get('/api/admin/payments/:id', PaymentController.findPayment)
+  .get('/api/payments/:id', PaymentController.findPayment)
   .patch('/api/admin/payments/:id', PaymentController.updatePaymentStatus)
   .post('/api/payments', PaymentController.insertPayment)
 

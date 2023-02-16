@@ -17,8 +17,9 @@ class PaymentController {
     }
 
     static async updatePaymentStatus(req, res) {
-        const { id } = req.params;
-        let { status } = req.query;
+        const {id} = req.params;
+        let {status} = req.query;
+        let descricao = req.body
         
         if (status === 'confirm') {
             status = 'CONFIRMADO';
@@ -32,9 +33,20 @@ class PaymentController {
                 id: Number(id) 
                 }
             })
+
+            if(!onePayment) return res.status(404).json('ID informado não existe!')
+
             if (onePayment.status == 'CRIADO') {
-                await database.Payments.update({status}, {where: {id: Number(id)}})
-                return res.status(200).json(`Payment ${status}.`)
+                if(status == 'CONFIRMADO') {
+                    database.sequelize.transaction(async transaction =>{
+                        await database.Payments.update({status}, {where: {id: Number(id)}}, {transaction: transaction})
+                        const invoices = await database.Invoices.create({descricao, "paymentId": id}, {transaction: transaction})
+                        return res.status(200).json(invoices)        
+                    })
+                } else {
+                    await database.Payments.update({status}, {where: {id: Number(id)}})
+                    return res.status(200).json(`Payment ${status}.`)
+                }
             } else {
                 return res.status(400).json('Não foi possível realizar a alteração!')
             }
