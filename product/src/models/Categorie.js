@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const categorieSchema = new mongoose.Schema(
   {
-    id: {type: String},
-    nome: {type: String, required: true, match: /^[A-z][A-z0-9]{3,}$/},
-    status: {type: String, required: true}
-  }
+    id: { type: String },
+    nome: { type: String, required: true, match: /^[A-z][A-z0-9]{3,}$/ },
+    status: { type: String, required: true },
+  },
 );
 
-const categories = mongoose.model('categories', categorieSchema);
+const Categorie = mongoose.model('Categorie', categorieSchema);
 
-export default categories;
+export default Categorie;

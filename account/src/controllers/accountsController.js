@@ -1,69 +1,64 @@
-import accounts from "../models/Account.js";
+/* eslint-disable import/extensions */
+/* eslint-disable no-shadow */
+import Account from '../models/Account.js';
+
 class AccountController {
-    
   static listAccounts = (req, res) => {
-     accounts.find()
-        .exec((err, accounts) => {
-          if(err) {
-            res.status(404).send({message: `${err.message} - Usuários não localizados.`})
-          } else {
-            res.status(200).json(accounts)
-          }
-    })
-  }
+    Account.find()
+      .exec((err, accounts) => {
+        if (err) {
+          res.status(404).send({ message: `${err.message} - Usuários não localizados.` });
+        } else {
+          res.status(200).json(accounts);
+        }
+      });
+  };
 
   static findAccountById = (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
 
-    accounts.findById(id)
+    Account.findById(id)
       .exec((err, accounts) => {
-      if(err) {
-        res.status(404).send({message: `${err.message} - Id do usuário não localizado.`})
-      } else {
-        res.status(200).send(accounts);
-      }
-    })
-  }
+        if (err) {
+          res.status(404).send({ message: `${err.message} - Id do usuário não localizado.` });
+        } else {
+          res.status(200).send(accounts);
+        }
+      });
+  };
 
   static insertAccount = (req, res) => {
-    let account = new accounts(req.body);
-
-      account.save((err) => {
-        if(err) {
-          res.status(500).send({message: `${err.message} - Falha ao cadastrar usuário.`})
-        } else {
-          res.status(201).send(account.toJSON())
-        }
-      })
-    
-  }
+    const account = new Account(req.body);
+    account.save((err) => {
+      if (err) {
+        res.status(500).send({ message: `${err.message} - Falha ao cadastrar usuário.` });
+      } else {
+        res.status(201).send(account.toJSON());
+      }
+    });
+  };
 
   static updateAccount = (req, res) => {
-    const id = req.params.id;
-
-      accounts.findByIdAndUpdate(id, {$set: req.body}, (err) => {
-        if(!err) {
-          res.status(200).send({message: 'Usuário atualizado com sucesso!'})
-        } else {
-          res.status(500).send({message: err.message})
-        }
-      })
-
-  }
+    const { id } = req.params;
+    Account.findByIdAndUpdate(id, { $set: req.body }, (err) => {
+      if (!err) {
+        res.status(200).send({ message: 'Usuário atualizado com sucesso!' });
+      } else {
+        res.status(500).send({ message: err.message });
+      }
+    });
+  };
 
   static deleteAccount = (req, res) => {
-    const id = req.params.id;
-
-    accounts.findByIdAndDelete(id, (err) => {
-      if(!err){
-        res.status(200).send({message: 'Usuário removido com sucesso!'})
+    const { id } = req.params;
+    Account.findByIdAndDelete(id, (err) => {
+      if (!err) {
+        res.status(200).send({ message: 'Usuário removido com sucesso!' });
       } else {
-        res.status(500).send({message: err.message})
+        res.status(500).send({ message: err.message });
       }
-    })
-  }
+    });
+  };
 }
 
-export default AccountController
-
- 
+export default AccountController;

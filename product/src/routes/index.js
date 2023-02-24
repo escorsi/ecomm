@@ -1,17 +1,18 @@
-import express from "express";
-import categories from "./categoriesRoutes.js"
-import products from "./productsRoutes.js"
+/* eslint-disable import/extensions */
+import express from 'express';
+import categories from './categoriesRoutes.js';
+import products from './productsRoutes.js';
 
 const routes = (app) => {
   app.route('/').get((req, res) => {
-    res.status(200).send({titulo: "Ecomm"})
-  })
+    res.status(200).send({ titulo: 'Ecomm' });
+  });
 
   app.use(
     express.json(),
     categories,
-    products
-  )
-}
+    products,
+  );
+};
 
-export default routes
+export default routes;
