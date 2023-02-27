@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon ./api/index.js",
     "start": "node ./api/index.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "jest"
   },
   "author": "Patrick Escorsi",
   "license": "MIT",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "jest": "^29.4.3",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3"
   }
 }
