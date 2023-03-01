@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 /* eslint-disable no-shadow */
 import Product from '../models/Product.js';
 import Categorie from '../models/Categorie.js';
@@ -7,15 +6,12 @@ const regexNome = /^[^\d]/;
 const regexSlug = /^[a-zA-Z0-9-]+$/;
 
 function validation(product) {
-  if (product.nomeProduto.length > 3
+  return !!(product.nomeProduto.length > 3
     && regexNome.test(product.nomeProduto)
     && product.precoUnitario > 0
     && product.quantidadeEstoque > 0
     && product.quantidadeEstoque < 10000
-    && regexSlug.test(product.slug)) {
-    return true;
-  }
-  return false;
+    && regexSlug.test(product.slug));
 }
 class ProductController {
   static listProducts = (req, res) => {

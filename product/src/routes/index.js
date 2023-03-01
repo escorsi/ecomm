@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 import express from 'express';
 import categories from './categoriesRoutes.js';
 import products from './productsRoutes.js';

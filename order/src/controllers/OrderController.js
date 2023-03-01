@@ -1,5 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-shadow */
 import Order from '../models/Order.js';
 
 class OrderController {

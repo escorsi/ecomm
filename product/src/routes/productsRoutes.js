@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 import express from 'express';
 import ProductController from '../controllers/productsController.js';
 
