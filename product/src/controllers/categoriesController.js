@@ -1,66 +1,67 @@
-import categories from "../models/Categorie.js";
+/* eslint-disable import/extensions */
+/* eslint-disable no-shadow */
+import Categorie from '../models/Categorie.js';
 
-const regexNome = /^[^\d]/;
 class CategorieController {
-
   static listCategories = (req, res) => {
-    categories.find((err, categories) => {
-        res.status(200).json(categories)
-    })
-  }
-
-  static listCategorieId = (req, res) => {
-    const id = req.params.id;
-
-    categories.findById(id)
-      .exec((err, categories) => {
-      if(err) {
-        res.status(400).send({message: `${err.message} - Id da categoria não localizado.`})
+    Categorie.find((err, categories) => {
+      if (err) {
+        res.status(404).send({ message: `${err.message} - Categorias não localizadas.` });
       } else {
-        res.status(200).send(categories);
+        res.status(200).json(categories);
       }
-    })
-  }
+      return categories;
+    });
+  };
+
+  static findCategorieById = (req, res) => {
+    const { id } = req.params;
+
+    Categorie.findById(id)
+      .exec((err, categories) => {
+        if (err) {
+          res.status(404).send({ message: `${err.message} - Id da categoria não localizado.` });
+        } else {
+          res.status(200).send(categories);
+        }
+      });
+  };
 
   static insertCategorie = (req, res) => {
-    let categorie = new categories(req.body);
+    const categorie = new Categorie(req.body);
 
-    if(categorie.nome.length > 3 && regexNome.test(categorie.nome)) {
-      categorie.save((err) => {
-        if(err) {
-          res.status(500).send({message: `${err.message} - Falha ao cadastrar categoria.`})
-        } else {
-          res.status(201).send(categorie.toJSON())
-        }
-      })
-    } else {
-      res.status(500).send({message: `Não foi possível inserir essa categoria.`})
-    }
-  }
+    categorie.save((err) => {
+      if (err) {
+        res.status(500).send({ message: `${err.message} - Falha ao cadastrar categoria.` });
+      } else {
+        res.status(201).send(categorie.toJSON());
+      }
+    });
+  };
 
   static updateCategorie = (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
 
-    categories.findByIdAndUpdate(id, {$set: req.body}, (err) => {
-      if(!err) {
-        res.status(200).send({message: 'Categoria atualizada com sucesso!'})
+    Categorie.findByIdAndUpdate(id, { $set: req.body }, (err) => {
+      if (!err) {
+        res.status(200).send({ message: 'Categoria atualizada com sucesso!' });
       } else {
-        res.status(500).send({message: err.message})
+        res.status(500).send({ message: err.message });
       }
-    })
-  }
+    });
+  };
 
   static deleteCategorie = (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
 
-    categories.findByIdAndDelete(id, (err) => {
-      if(!err){
-        res.status(200).send({message: 'Categoria removida com sucesso!'})
+    Categorie.findByIdAndDelete(id, (err) => {
+      if (!err) {
+        res.status(200).send({ message: 'Categoria removida com sucesso!' });
       } else {
-        res.status(500).send({message: err.message})
+        res.status(500).send({ message: err.message });
       }
-    })
-  }
+    });
+  };
 }
 
-export default CategorieController
+export default CategorieController;
