@@ -7,14 +7,12 @@ import {
 } from '@jest/globals';
 import app from '../../app.js';
 
-let server;
-beforeEach(() => {
-  const port = 3002;
-  server = app.listen(port);
+beforeAll(async () => {
+  await mongoose.connect('mongodb://admin:secret@127.0.0.1:27017/ecomm-order-test?authSource=admin');
 });
 
-afterEach(() => {
-  server.close();
+afterAll(async () => {
+  await mongoose.connection.close();
 });
 
 let idResposta;

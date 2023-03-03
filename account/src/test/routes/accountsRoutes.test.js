@@ -8,14 +8,12 @@ import {
 } from '@jest/globals';
 import app from '../../app.js';
 
-let server;
-beforeEach(() => {
-  const port = 3001;
-  server = app.listen(port);
+beforeAll(async () => {
+  await mongoose.connect('mongodb://admin:secret@127.0.0.1:27017/ecomm-account-test?authSource=admin');
 });
 
-afterEach(() => {
-  server.close();
+afterAll(async () => {
+  await mongoose.connection.close();
 });
 
 describe('GET em /api/admin/accounts', () => {

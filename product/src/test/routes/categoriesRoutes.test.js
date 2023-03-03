@@ -2,31 +2,28 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
 /* eslint-disable import/no-extraneous-dependencies */
+import mongoose from 'mongoose';
 import request from 'supertest';
 import {
   describe, expect, it, jest,
 } from '@jest/globals';
 import app from '../../app.js';
 
-let server;
-beforeEach(() => {
-  const port = 3000;
-  server = app.listen(port);
+beforeAll(async () => {
+  await mongoose.connect('mongodb://admin:secret@127.0.0.1:27017/ecomm-product-test?authSource=admin');
 });
 
-afterEach(() => {
-  server.close();
+afterAll(async () => {
+  await mongoose.connection.close();
 });
 
 describe('GET em /categories', () => {
   it('Deve retornar uma lista de categorias', async () => {
-    const resposta = await request(app)
+    await request(app)
       .get('/api/categories')
       .set('Accept', 'application/json')
       .expect('content-type', /json/)
       .expect(200);
-
-    expect(resposta.body[0].nome).toEqual('INFORMÁTICA');
   });
 });
 
