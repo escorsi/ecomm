@@ -5,6 +5,7 @@
   "main": "./api/index.js",
   "scripts": {
     "dev": "nodemon ./api/index.js",
+    "lint": "eslint src",
     "start": "node ./api/index.js",
     "test": "jest"
   },

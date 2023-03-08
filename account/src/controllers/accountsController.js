@@ -1,9 +1,28 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable import/extensions */
 /* eslint-disable no-shadow */
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import Account from '../models/Account.js';
 
+dotenv.config();
+
+const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,20}/;
+
+function passwordHash(senha) {
+  const cost = 12;
+  return bcrypt.hash(senha, cost);
+}
+
+function addPassword(senha) {
+  if (regexSenha.test(senha)) {
+    return (passwordHash(senha));
+  }
+  return false;
+}
 class AccountController {
-  static listAccounts = (req, res) => {
+  static listAccounts = (_req, res) => {
     Account.find()
       .exec((err, accounts) => {
         if (err) {
@@ -27,15 +46,24 @@ class AccountController {
       });
   };
 
-  static insertAccount = (req, res) => {
+  static insertAccount = async (req, res) => {
+    req.body.senha = await addPassword(req.body.senha);
+    if (!req.body.senha) {
+      res.status(500).send('Falha ao cadastrar usuário - Senha inválida');
+    }
     const account = new Account(req.body);
-    account.save((err) => {
-      if (err) {
-        res.status(500).send({ message: `${err.message} - Falha ao cadastrar usuário.` });
-      } else {
-        res.status(201).send(account.toJSON());
-      }
-    });
+
+    try {
+      await account.save((err) => {
+        if (err) {
+          res.status(500).send({ message: `${err.message} - Falha ao cadastrar usuário.` });
+        } else {
+          res.status(201).send(account.toJSON());
+        }
+      });
+    } catch (err) {
+      res.status(500).send({ message: `${err.message} - Falha ao cadastrar usuário.` });
+    }
   };
 
   static updateAccount = (req, res) => {
@@ -58,6 +86,25 @@ class AccountController {
         res.status(500).send({ message: err.message });
       }
     });
+  };
+
+  static login = async (req, res) => {
+    const { email, senha } = req.body;
+    const account = await Account.findOne({ email });
+
+    if (!account) {
+      throw new Error('E-mail ou senha inválidos');
+    }
+
+    const passwordVerify = await bcrypt.compare(senha, account.senha);
+
+    if (!passwordVerify) {
+      throw new Error('E-mail ou senha inválidos');
+    }
+
+    const token = jwt.sign({ id: account._id }, process.env.CHAVE_JWT ?? '', { expiresIn: '15m' });
+    res.set('Authorization', token);
+    res.status(204).send();
   };
 }
 
