@@ -38,7 +38,6 @@ passport.use(
     async (token, done) => {
       try {
         const payload = jwt.verify(token, process.env.CHAVE_JWT);
-        console.log(payload);
         const account = await Account.findById(payload.id);
         done(null, account, { token });
       } catch (err) {

@@ -93,6 +93,18 @@ class AccountController {
     res.set('Authorization', token);
     res.status(204).send();
   };
+
+/*
+  static logout = async (req, res) => {
+    try {
+      const { token } = req;
+      await blacklist.adiciona(token);
+      res.status(204).send();
+    } catch (err) {
+      res.status(500).json({ err: err.message });
+    }
+  };
+*/
 }
 
 export default AccountController;
