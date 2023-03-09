@@ -1,5 +1,11 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies */
+const dotenv = require('dotenv');
 const express = require('express');
 const routes = require('./routes/index.js');
+const BearerStrategy = require('./utils/auth.js');
+
+dotenv.config();
 
 const app = express();
 const port = 3003;
