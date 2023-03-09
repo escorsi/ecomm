@@ -6,7 +6,7 @@ module.exports = {
     passport.authenticate(
       'bearer',
       { session: false },
-      (err, product, info) => {
+      (err, order, info) => {
         if (err && err.name === 'JsonWebTokenerrr') {
           return res.status(401).json({ err: err.message });
         }
@@ -21,12 +21,12 @@ module.exports = {
           return res.status(500).json({ err: err.message });
         }
 
-        if (!product) {
+        if (!order) {
           return res.status(401).json();
         }
 
         req.token = info.token;
-        req.user = product;
+        req.user = order;
         return next();
       },
     )(req, res, next);
