@@ -89,20 +89,7 @@ class AccountController {
   };
 
   static login = async (req, res) => {
-    const { email, senha } = req.body;
-    const account = await Account.findOne({ email });
-
-    if (!account) {
-      throw new Error('E-mail ou senha inválidos');
-    }
-
-    const passwordVerify = await bcrypt.compare(senha, account.senha);
-
-    if (!passwordVerify) {
-      throw new Error('E-mail ou senha inválidos');
-    }
-
-    const token = jwt.sign({ id: account._id }, process.env.CHAVE_JWT ?? '', { expiresIn: '15m' });
+    const token = jwt.sign({ id: req.user._id }, process.env.CHAVE_JWT ?? '', { expiresIn: '15m' });
     res.set('Authorization', token);
     res.status(204).send();
   };
