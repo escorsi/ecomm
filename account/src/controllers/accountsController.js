@@ -1,6 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable import/extensions */
-/* eslint-disable no-shadow */
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -69,10 +66,10 @@ class AccountController {
   static updateAccount = (req, res) => {
     const { id } = req.params;
     Account.findByIdAndUpdate(id, { $set: req.body }, (err) => {
-      if (!err) {
-        res.status(200).send({ message: 'Usuário atualizado com sucesso!' });
-      } else {
+      if (err) {
         res.status(500).send({ message: err.message });
+      } else {
+        res.status(200).send({ message: 'Usuário atualizado com sucesso!' });
       }
     });
   };
@@ -80,10 +77,10 @@ class AccountController {
   static deleteAccount = (req, res) => {
     const { id } = req.params;
     Account.findByIdAndDelete(id, (err) => {
-      if (!err) {
-        res.status(200).send({ message: 'Usuário removido com sucesso!' });
-      } else {
+      if (err) {
         res.status(500).send({ message: err.message });
+      } else {
+        res.status(200).send({ message: 'Usuário removido com sucesso!' });
       }
     });
   };

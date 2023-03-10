@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable import/no-extraneous-dependencies */
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';

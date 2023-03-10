@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import express from 'express';
 import routes from './routes/index.js';
 import BearerStrategy from './utils/auth.js';

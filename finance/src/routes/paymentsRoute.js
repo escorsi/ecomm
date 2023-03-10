@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const { Router } = require('express');
 const authMiddleware = require('../utils/auth-middleware.cjs');
 

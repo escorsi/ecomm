@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable import/extensions */
 import express from 'express';
 import AccountController from '../controllers/accountsController.js';
 import authMiddleware from '../utils/auth-middleware.cjs';

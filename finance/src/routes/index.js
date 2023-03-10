@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const payments = require('./paymentsRoute.js');

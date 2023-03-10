@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import Product from '../models/Product.js';
 import Categorie from '../models/Categorie.js';
 
@@ -44,16 +43,16 @@ class ProductController {
     const product = new Product(req.body);
 
     Categorie.findById(product.categoria.categoria_id, (err) => {
-      if (!err) {
-        product.save((err) => {
-          if (err) {
-            res.status(500).send({ message: `${err.message} - Falha ao cadastrar produto.` });
+      if (err) {
+        res.status(400).send({ message: 'Categoria inválida! Não foi possível inserir esse produto.' });
+      } else {
+        product.save((erro) => {
+          if (erro) {
+            res.status(500).send({ message: `${erro.message} - Falha ao cadastrar produto.` });
           } else {
             res.status(201).send(product.toJSON());
           }
         });
-      } else {
-        res.status(404).send({ message: 'Categoria inválida! Não foi possível inserir esse produto.' });
       }
     });
   };
@@ -63,16 +62,16 @@ class ProductController {
 
     if (validation(req.body)) {
       Categorie.findById(req.body.categoria.categoria_id, (err) => {
-        if (!err) {
-          Product.findByIdAndUpdate(id, { $set: req.body }, (err) => {
-            if (!err) {
-              res.status(200).send({ message: 'Produto atualizado com sucesso!' });
+        if (err) {
+          res.status(404).send({ message: 'Não foi possível atualizar esse produto.' });
+        } else {
+          Product.findByIdAndUpdate(id, { $set: req.body }, (erro) => {
+            if (erro) {
+              res.status(500).send({ message: erro.message });
             } else {
-              res.status(500).send({ message: err.message });
+              res.status(200).send({ message: 'Produto atualizado com sucesso!' });
             }
           });
-        } else {
-          res.status(404).send({ message: 'Não foi possível atualizar esse produto.' });
         }
       });
     } else {
@@ -81,13 +80,13 @@ class ProductController {
   };
 
   static deleteProduct = (req, res) => {
-    const { id } = req.params.id;
+    const { id } = req.params;
 
     Product.findByIdAndDelete(id, (err) => {
-      if (!err) {
-        res.status(200).send({ message: 'Produto removido com sucesso!' });
-      } else {
+      if (err) {
         res.status(500).send({ message: err.message });
+      } else {
+        res.status(200).send({ message: 'Produto removido com sucesso!' });
       }
     });
   };

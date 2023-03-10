@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable import/no-extraneous-dependencies */
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const BearerStrategy = require('passport-http-bearer').Strategy;

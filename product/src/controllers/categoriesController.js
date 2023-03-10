@@ -1,5 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-shadow */
 import Categorie from '../models/Categorie.js';
 
 class CategorieController {
@@ -20,7 +18,7 @@ class CategorieController {
     Categorie.findById(id)
       .exec((err, categories) => {
         if (err) {
-          res.status(404).send({ message: `${err.message} - Id da categoria não localizado.` });
+          res.status(500).send({ message: `${err.message} - Erro ao buscar categoria` });
         } else {
           res.status(200).send(categories);
         }
@@ -43,10 +41,10 @@ class CategorieController {
     const { id } = req.params;
 
     Categorie.findByIdAndUpdate(id, { $set: req.body }, (err) => {
-      if (!err) {
-        res.status(200).send({ message: 'Categoria atualizada com sucesso!' });
-      } else {
+      if (err) {
         res.status(500).send({ message: err.message });
+      } else {
+        res.status(200).send({ message: 'Categoria atualizada com sucesso!' });
       }
     });
   };
@@ -55,10 +53,10 @@ class CategorieController {
     const { id } = req.params;
 
     Categorie.findByIdAndDelete(id, (err) => {
-      if (!err) {
-        res.status(200).send({ message: 'Categoria removida com sucesso!' });
-      } else {
+      if (err) {
         res.status(500).send({ message: err.message });
+      } else {
+        res.status(200).send({ message: 'Categoria removida com sucesso!' });
       }
     });
   };
