@@ -8,16 +8,9 @@ dotenv.config();
 
 const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{9,20}/;
 
-function passwordHash(senha) {
+function addPassword(senha) {
   const cost = 12;
   return bcrypt.hash(senha, cost);
-}
-
-function addPassword(senha) {
-  if (regexSenha.test(senha)) {
-    return (passwordHash(senha));
-  }
-  return false;
 }
 class AccountController {
   static listAccounts = (_req, res) => {
@@ -45,22 +38,18 @@ class AccountController {
   };
 
   static insertAccount = async (req, res) => {
-    req.body.senha = await addPassword(req.body.senha);
-    if (!req.body.senha) {
-      res.status(500).send('Falha ao cadastrar usuário - Senha inválida');
-    }
     const account = new Account(req.body);
-
-    try {
-      await account.save((err) => {
+    if (regexSenha.test(account.senha)) {
+      account.senha = await addPassword(account.senha);
+      account.save((err) => {
         if (err) {
           res.status(500).send({ message: `${err.message} - Falha ao cadastrar usuário.` });
         } else {
           res.status(201).send(account.toJSON());
         }
       });
-    } catch (err) {
-      res.status(500).send({ message: `${err.message} - Falha ao cadastrar usuário.` });
+    } else {
+      res.status(400).send('Falha ao cadastrar usuário - Senha inválida');
     }
   };
 
