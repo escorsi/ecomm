@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import Account from '../models/Account.js';
+import { addToken } from '../../redis/blacklistManipulate.js';
 
 dotenv.config();
 
@@ -91,17 +92,15 @@ class AccountController {
     res.status(204).send();
   };
 
-/*
   static logout = async (req, res) => {
     try {
       const { token } = req;
-      await blacklist.adiciona(token);
+      await addToken(token);
       res.status(204).send();
     } catch (err) {
       res.status(500).json({ err: err.message });
     }
   };
-*/
 }
 
 export default AccountController;

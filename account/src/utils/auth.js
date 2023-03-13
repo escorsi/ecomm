@@ -3,7 +3,13 @@ import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
+import { tokenVerify } from '../../redis/blacklistManipulate.js';
 import Account from '../models/Account.js';
+
+async function verifyBlacklistToken(token) {
+  const tokenBlacklist = await tokenVerify(token);
+  if (tokenBlacklist) throw new jwt.JsonWebTokenError('Logout já realizado com este token!');
+}
 
 passport.use(
   new LocalStrategy(
@@ -35,6 +41,7 @@ passport.use(
   new BearerStrategy(
     async (token, done) => {
       try {
+        await verifyBlacklistToken(token);
         const payload = jwt.verify(token, process.env.CHAVE_JWT);
         const account = await Account.findById(payload.id);
         done(null, account, { token });
