@@ -1,6 +1,8 @@
-/* eslint-disable import/extensions */
+import dotenv from 'dotenv';
 import express from 'express';
 import accounts from './accountsRoutes.js';
+
+dotenv.config();
 
 const routes = (app) => {
   app.route('/').get((req, res) => {

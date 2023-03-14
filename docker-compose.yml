@@ -14,6 +14,7 @@ services:
       - "3001:3001"
     depends_on:
       - mongodb
+      - redis
   order:
     build: ./order
     container_name: ecomm-order
@@ -49,8 +50,16 @@ services:
       - '3306:3306'
     volumes:
       - volmysql:/var/lib/mysql
-
+  redis:
+    container_name: redis-ecomm
+    image: redis
+    restart: always
+    ports:
+    - 6379:6379
+    volumes:
+    - redis_data:/data
 volumes:
   volmysql: 
     driver:  local
   VOL1: 
+  redis_data:

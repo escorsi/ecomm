@@ -28,10 +28,10 @@ class OrderController {
   static confirmOrder = (req, res) => {
     const { id } = req.params;
     Order.findByIdAndUpdate(id, { $set: req.body, status: 'PAGO' }, (err) => {
-      if (!err) {
-        res.status(200).send({ message: 'Produto atualizado com sucesso!' });
-      } else {
+      if (err) {
         res.status(500).send({ message: err.message });
+      } else {
+        res.status(200).send({ message: 'Produto atualizado com sucesso!' });
       }
     });
   };
