@@ -29,6 +29,16 @@ services:
       - "3003:3003"
     depends_on:
       - mysql
+  gateway:
+    build: ./gateway
+    container_name: ecomm-gateway
+    ports: 
+      - "3005:3005"
+    depends_on:
+      - product
+      - account
+      - order
+      - finance
   mongodb:
     container_name: mongo-ecomm
     image: mongo
