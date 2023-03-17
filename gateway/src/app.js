@@ -4,7 +4,6 @@ import './utils/auth.js';
 import './utils/auth-middleware.js';
 
 const app = express();
-app.use(express.json());
 app.use((err, _req, res, next) => {
   if (err) {
     const { status, message } = err;

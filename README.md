@@ -9,7 +9,7 @@ Projeto de e-commerce criando durante o programa LevelUp da Alura.
 |--------|-------------|--------|
 | 1. Codebase | One codebase tracked in revision control, many deploys | OK |
 | 2. Dependencies | Explicitly declare and isolate dependencies | OK |
-| 3. Config | Store config in the environment | TODO |
+| 3. Config | Store config in the environment | OK |
 | 4. Backing services | Treat backing services as attached resources | OK |
 | 5. Build, release, run | Strictly separate build and run stages | OK |
 | 6. Processes | Execute the app as one or more stateless processes | OK |
@@ -30,11 +30,11 @@ Este fator é contemplado pois mantemos nossas dependências isoladas e declarad
 
 ### Config
 
-Fator ainda não contemplado, pois as conexões com os bancos de dados estão explícitas no código. Devo utilizar as variáveis de ambiente.
+Fator contemplado, pois todas os dados de configurações, como o de conexões com os bancos de dados não estão explícitos no código.
 
 ### Backing services
 
-É utilizado serviços de apoio como Redis e os BD's, porém é necessário corrigir as configurações deles através de variáveis de ambiente.
+É utilizado serviços de apoio como Redis e os BD's.
 
 ### Build, release, run
 
@@ -74,7 +74,7 @@ Fator não contemplado.
 |--------------|-----------|
 | 1. Serviços de domínio | OK |
 | 2. Serviços de negócio | OK |
-| 3. API Gateway | TODO |
+| 3. API Gateway | OK |
 | 4. Agregador de processos | OK |
 | 5. Edge service | OK |
 | 6. Single database vs Bancos diferentes | OK |
@@ -92,7 +92,7 @@ O projeto utiliza serviços de negócio, em que há interação entre domínios.
 
 ### API Gateway
 
-Ainda não implementado.
+Implementado.
 
 ### Agregador de processos
 

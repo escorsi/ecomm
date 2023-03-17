@@ -1,7 +1,6 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const routes = require('./routes/index.js');
-const BearerStrategy = require('./utils/auth.js');
 
 dotenv.config();
 

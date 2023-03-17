@@ -83,9 +83,7 @@ class AccountController {
 
   static logout = async (req, res) => {
     try {
-      console.log(req);
-      const { token } = req.authInfo;
-      console.log(token);
+      const { token } = req.params;
       await addToken(token);
       res.status(204).send();
     } catch (err) {

@@ -7,7 +7,7 @@ const router = express.Router();
 router
   .get('/api/admin/accounts', AccountController.listAccounts)
   .get('/api/accounts/:id', AccountController.findAccountById)
-  .get('/api/admin/accounts/logout', AccountController.logout)
+  .get('/api/admin/accounts/logout/:token', AccountController.logout)
   .post('/api/admin/accounts', AccountController.insertAccount)
   .post('/api/accounts/login', local, AccountController.login)
   .put('/api/admin/accounts/:id', AccountController.updateAccount)
