@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import Account from '../models/Account.js';
-import { addToken } from '../../redis/blacklistManipulate.js';
+import addToken from '../../redis/blacklistManipulate.js';
 
 dotenv.config();
 
@@ -83,10 +83,13 @@ class AccountController {
 
   static logout = async (req, res) => {
     try {
-      const { token } = req;
+      console.log(req);
+      const { token } = req.authInfo;
+      console.log(token);
       await addToken(token);
       res.status(204).send();
     } catch (err) {
+      console.log('A1');
       res.status(500).json({ err: err.message });
     }
   };

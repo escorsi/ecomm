@@ -1,6 +1,7 @@
 import express from 'express';
 import routes from './routes/index.js';
-import { LocalStrategy, BearerStrategy } from './utils/auth.js';
+import './utils/auth.js';
+import './utils/auth-middleware.js';
 
 const app = express();
 app.use(express.json());

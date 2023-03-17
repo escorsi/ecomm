@@ -4,7 +4,7 @@ import blacklist from './redis/blacklist.js';
 
 dotenv.config();
 
-const port = process.env.PORT || 3005;
+const port = process.env.GATEWAY_PORT;
 
 app.listen(port, () => {
   console.log(`Servidor escutando em http://localhost:${port}`);

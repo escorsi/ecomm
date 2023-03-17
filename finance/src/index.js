@@ -6,7 +6,7 @@ const BearerStrategy = require('./utils/auth.js');
 dotenv.config();
 
 const app = express();
-const port = 3003;
+const port = process.env.FINANCE_PORT;
 
 routes(app);
 

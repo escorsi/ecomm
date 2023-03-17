@@ -1,5 +1,6 @@
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import bearer from '../utils/auth-middleware.js';
 
 const router = express.Router();
 
@@ -9,12 +10,12 @@ const accountsRoutes = createProxyMiddleware({
 });
 
 router
-  .get('/admin/accounts', accountsRoutes)
+  .get('/admin/accounts', bearer, accountsRoutes)
   .get('/accounts/:id', accountsRoutes)
-  .get('/admin/accounts/logout', accountsRoutes)
+  .get('/admin/accounts/logout', bearer, accountsRoutes)
   .post('/admin/accounts', accountsRoutes)
   .post('/accounts/login', accountsRoutes)
-  .put('/admin/accounts/:id', accountsRoutes)
-  .delete('/admin/accounts/:id', accountsRoutes);
+  .put('/admin/accounts/:id', bearer, accountsRoutes)
+  .delete('/admin/accounts/:id', bearer, accountsRoutes);
 
 export default router;
