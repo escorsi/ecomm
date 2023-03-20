@@ -10,7 +10,7 @@ db.once('open', () => {
   console.log('Conexão com o banco feita com sucesso!');
 });
 
-const port = process.env.PORT || 3002;
+const port = process.env.ORDER_PORT;
 
 app.listen(port, () => {
   console.log(`Servidor escutando em http://localhost:${port}`);

@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-mongoose.connect('mongodb://admin:secret@mongodb:27017/ecomm-order?authSource=admin');
+dotenv.config();
+
+mongoose.connect(process.env.MONGO_URI);
 
 const db = mongoose.connection;
 

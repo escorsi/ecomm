@@ -1,7 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
-import { tokenVerify } from '../../redis/blacklistManipulate.js';
+import tokenVerify from '../../redis/blacklistManipulate.js';
 
 async function verifyBlacklistToken(token) {
   const tokenBlacklist = await tokenVerify(token);

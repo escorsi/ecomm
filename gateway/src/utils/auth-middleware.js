@@ -1,10 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import passport from 'passport';
 
 const bearer = (req, res, next) => {
   passport.authenticate(
     'bearer',
     { session: false },
-    (err, product, info) => {
+    (err, payload, info) => {
       if (err && err.name === 'JsonWebTokenerrr') {
         return res.status(401).json({ err: err.message });
       }
@@ -19,12 +20,12 @@ const bearer = (req, res, next) => {
         return res.status(500).json({ err: err.message });
       }
 
-      if (!product) {
+      if (!payload) {
         return res.status(401).json();
       }
 
       req.token = info.token;
-      req.user = product;
+      req.user = payload.id;
       return next();
     },
   )(req, res, next);
