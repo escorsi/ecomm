@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import redis from 'redis';
 
 const blacklist = redis.createClient({

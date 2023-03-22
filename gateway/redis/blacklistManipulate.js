@@ -1,8 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 import { createHash } from 'crypto';
 import blacklist from './blacklist.js';
+import RESULTADO from '../constants/constants.js';
 
 const verifyAsync = promisify(blacklist.exists).bind(blacklist);
 
@@ -13,10 +12,10 @@ const generateTokenHash = (token) => {
   return tokenHash;
 };
 
-const tokenVerify = async (token) => {
+const isTokenValid = async (token) => {
   const tokenHash = generateTokenHash(token);
   const result = await verifyAsync(tokenHash);
-  return result === 1;
+  return result === RESULTADO;
 };
 
-export default tokenVerify;
+export default isTokenValid;

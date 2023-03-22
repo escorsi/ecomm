@@ -87,7 +87,6 @@ class AccountController {
       await addToken(token);
       res.status(204).send();
     } catch (err) {
-      console.log('A1');
       res.status(500).json({ err: err.message });
     }
   };

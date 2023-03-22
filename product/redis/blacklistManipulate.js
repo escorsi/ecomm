@@ -20,10 +20,10 @@ const addToken = async (token) => {
   blacklist.expireat(tokenHash, expirationDate);
 };
 
-const tokenVerify = async (token) => {
+const isTokenValid = async (token) => {
   const tokenHash = generateTokenHash(token);
   const result = await verifyAsync(tokenHash);
   return result === 1;
 };
 
-export { addToken, tokenVerify };
+export { addToken, isTokenValid };

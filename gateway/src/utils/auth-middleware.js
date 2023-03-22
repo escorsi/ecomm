@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import passport from 'passport';
 
 const bearer = (req, res, next) => {
