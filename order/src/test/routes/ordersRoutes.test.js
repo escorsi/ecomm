@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-undef */
 /* eslint-disable import/no-extraneous-dependencies */
+import mongoose from 'mongoose';
 import request from 'supertest';
 import {
   describe, jest, it,

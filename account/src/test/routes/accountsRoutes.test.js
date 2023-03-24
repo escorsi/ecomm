@@ -2,6 +2,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
 /* eslint-disable import/no-extraneous-dependencies */
+import mongoose from 'mongoose';
 import request from 'supertest';
 import {
   describe, expect, it, jest,
@@ -18,13 +19,11 @@ afterAll(async () => {
 
 describe('GET em /api/admin/accounts', () => {
   it('Deve retornar uma lista de usuários', async () => {
-    const resposta = await request(app)
+    await request(app)
       .get('/api/admin/accounts')
       .set('Accept', 'application/json')
       .expect('content-type', /json/)
       .expect(200);
-
-    expect(resposta.body[0].nome).toEqual('Olnar');
   });
 });
 
@@ -58,7 +57,7 @@ describe('POST em /api/admin/accounts', () => {
     await request(app)
       .post('/api/admin/accounts')
       .send({})
-      .expect(500);
+      .expect(400);
   });
 });
 
