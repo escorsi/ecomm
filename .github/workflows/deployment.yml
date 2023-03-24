@@ -14,21 +14,21 @@ jobs:
       mongodb:
         image: mongo:5.0
         ports:
-          - ${{ MONGO_PORT }}:${{ MONGO_PORT}}
+          - ${{ secrets.MONGO_PORT }}:${{ secrets.MONGO_PORT}}
         env:
-          MONGO_INITDB_ROOT_USERNAME: ${{ MONGO_USERNAME }}
-          MONGO_INITDB_ROOT_PASSWORD: ${{ MONGO_PASSWORD }}
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_USERNAME }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 
       mysql:
         image: mysql
         ports:
-          - ${{ MYSQL_PORT }}:${{ MYSQL_PORT }}
+          - ${{ secrets.MYSQL_PORT }}:${{ secrets.MYSQL_PORT }}
         env:
-          MYSQL_ROOT_PASSWORD: ${{ MYSQL_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
       redis:
         image: redis
         ports:
-          - ${{ REDIS_PORT }}:${{ REDIS_PORT }}
+          - ${{ secrets.REDIS_PORT }}:${{ secrets.REDIS_PORT }}
 
     steps:
       - name: Git checkout
