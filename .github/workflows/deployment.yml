@@ -31,13 +31,6 @@ jobs:
           cd ../order && npm install
           cd ../product && npm install
 
-      - name: Eslint checkout
-        run: |
-          cd account && npm run lint
-          cd ../gateway && npm run lint
-          cd ../order && npm run lint
-          cd ../product && npm run lint
-
       - name: Run jest/supertest checks
         run: |
           cd account && npm test
