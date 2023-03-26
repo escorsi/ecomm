@@ -1,0 +1,45 @@
+name: Ecomm
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.7.0
+        with:
+          mongodb-version: "5.0"
+
+      - name: Install dependencies
+        run: |
+          cd account && npm install
+          cd ../finance && npm install
+          cd ../gateway && npm install
+          cd ../order && npm install
+          cd ../product && npm install
+
+      - name: Run jest/supertest checks
+        run: |
+          cd account && npm test
+          cd ../finance && npm test
+          cd ../account && npm test
+          cd ../order && npm test
+          cd ../product && npm test
+
+      - name: Stop services
+        run: docker-compose down
+
+    

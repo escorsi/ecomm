@@ -78,7 +78,7 @@ Fator não contemplado.
 | 4. Agregador de processos | OK |
 | 5. Edge service | OK |
 | 6. Single database vs Bancos diferentes | OK |
-| 7. Eventos assíncronos‌ | OK |
+| 7. Eventos assíncronos‌ | TODO |
 | 8. Agregação de logs | TODO |
 | 9. Agregação de métricas | TODO |
 
@@ -108,7 +108,7 @@ Há a utilização de BD's diferentes, cada um responsável pelo seu respectivo 
 
 ### Eventos assíncronos‌
 
-Há a utilização de eventos assíncronos.
+Não há utilização de eventos assíncronos.
 
 ### Agregação de logs
 
@@ -117,3 +117,38 @@ Não implementado.
 ### Agregação de métricas
 
 Não implementado.
+
+## Aspectos de microsserviços
+
+### Padronização de stacks do serviço
+
+Possuímos alguns padrões nos nossos microsserviços, como o do eslint.
+Mas algo que poderia ser implementado, é um template, que possui uma imagem base para os microsserviços, com todos os serviços já instalados.
+
+### Solução para service discovery
+
+Para não lidar diretamente com IPs dos nossos microsserviços, podemos utilizar um DNS, servindo também como um service registry.
+Com isso, facilitamos um load balancer, distribuindo as solicitações entre os contêineres e evitando sobrecarga do servidor.
+
+### Aspectos de segurança
+
+A aplicação já utiliza questões de autenticação e autorização através de tokens JWT e ACL, mitigando acessos indevidos.
+A criptografia é algo essencial para proteger ainda mais nosso sistema, utilizando criptografia em back-ups e um BD cifrado. Caso fosse necessário realizar métricas, devemos armazenar os dados anonimizados.
+Como temos implementado um API Gateway, também acabamos aumentando um pouco da segurança do projeto, facilitando a implementação de um firewall.
+
+### Tecnologias para deploy e build
+
+Podemos adotar uma estratégia de release pipeline, automatizando as entregas.
+Devemos ter configurações (de ambientes e da aplicação) parametrizadas.
+
+Utilizaremos o Jenkins em conjunto com o GitHub Actions para fornecer um ambiente contínuo de integração e implantação.
+
+### Lidar com tolerância a falhas em aplicações síncronas
+
+Para lidar com tolerância a falhas podemos utilizar circuit breaker, que já tem uma implementação facilitada pois nosso projeto possuí um proxy por conta do gateway.
+Além disso, temos a possibilidade de utilizar cache em processamentos pesados.
+Essas ferramentas mitigando problemas do lado do servidor, como sobrecargas e inatividade.
+
+### Uso de comunicação assíncrona
+
+Neste projeto a comunicação assíncrona deve ser usada principalmente no microsserviço de order. Ao realizar um pedido, o pagamento pode demorar um tempo para ser aprovado ou negado, por isso o sistema deve retornar que o pagamento está sendo processado e aguardar a resposta.

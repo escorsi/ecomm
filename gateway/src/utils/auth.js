@@ -2,10 +2,10 @@
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
-import tokenVerify from '../../redis/blacklistManipulate.js';
+import isTokenValid from '../../redis/blacklistManipulate.js';
 
 async function verifyBlacklistToken(token) {
-  const tokenBlacklist = await tokenVerify(token);
+  const tokenBlacklist = await isTokenValid(token);
   if (tokenBlacklist) throw new jwt.JsonWebTokenError('Logout já realizado com este token!');
 }
 
